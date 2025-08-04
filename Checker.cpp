@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <functional>
+#include <cassert>
 using namespace std;
 
 enum CheckType { TEMPERATURE, SOC, CHARGE_RATE };
@@ -37,4 +38,6 @@ bool batteryIsOk(float temperature, float soc, float chargeRate) {
 int main() {
     assert(batteryIsOk(25, 70, 0.7) == true);
     assert(batteryIsOk(50, 85, 0) == false);
+    cout << "All tests passed.\n";
+    return 0;
 }

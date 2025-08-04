@@ -2,32 +2,44 @@
 #include <iostream>
 using namespace std;
 
-bool isTemperatureOk(float temperature) {
-  if (temperature < 0 || temperature > 45) {
-    cout << "Temperature out of range!\n";
-    return false;
-  }
-  return true;
-}
+enum CheckType {
+  TEMPERATURE,
+  SOC,
+  CHARGE_RATE
+};
 
-bool isSocOk(float soc) {
-  if (soc < 20 || soc > 80) {
-    cout << "State of Charge out of range!\n";
-    return false;
-  }
-  return true;
-}
-
-bool isChargeRateOk(float chargeRate) {
-  if (chargeRate > 0.8) {
-    cout << "Charge Rate out of range!\n";
-    return false;
+bool checkParameter(CheckType check, float value) {
+  switch (check) {
+    case TEMPERATURE:
+      if (value < 0 || value > 45) {
+        cout << "Temperature out of range!\n";
+        return false;
+      }
+      break;
+    case SOC:
+      if (value < 20 || value > 80) {
+        cout << "State of Charge out of range!\n";
+        return false;
+      }
+      break;
+    case CHARGE_RATE:
+      if (value > 0.8) {
+        cout << "Charge Rate out of range!\n";
+        return false;
+      }
+      break;
+    default:
+      // Unknown check type
+      return false;
   }
   return true;
 }
 
 bool batteryIsOk(float temperature, float soc, float chargeRate) {
-  return isTemperatureOk(temperature) && isSocOk(soc) && isChargeRateOk(chargeRate);
+  if (!checkParameter(TEMPERATURE, temperature)) return false;
+  if (!checkParameter(SOC, soc)) return false;
+  if (!checkParameter(CHARGE_RATE, chargeRate)) return false;
+  return true;
 }
 
 int main() {
